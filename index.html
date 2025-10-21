@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lunify">
     <title>Lunify - Психологическое благополучие</title>
-    <link rel="stylesheet" href="css/style.css?v=2.0">
+    <link rel="stylesheet" href="css/style.css?v=1001">
 </head>
 <body>
     <!-- Sidebar Toggle Button -->
@@ -93,18 +93,16 @@
                     <span class="tab-icon">💬</span>
                     <span class="tab-label">Чат поддержки</span>
                 </button>
-                <button class="ios-tab" data-tab="profile">
-                    <span class="tab-icon">👤</span>
-                    <span class="tab-label">Профиль</span>
-                </button>
             </nav>
 
-            <!-- Theme Toggle -->
+            <!-- Profile Button -->
             <div class="sidebar-footer">
-                <button class="theme-toggle-btn" id="themeToggle" title="Переключить тему">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                    </svg>
+                <button class="profile-footer-btn ios-tab" data-tab="profile" id="profileFooterBtn">
+                    <div class="profile-avatar-small" id="profileAvatarSmall">
+                        <img src="" alt="Avatar" id="avatarImgSmall" style="display: none;">
+                        <div class="avatar-placeholder-small">👤</div>
+                    </div>
+                    <span class="profile-footer-text">Профиль</span>
                 </button>
             </div>
         </aside>
@@ -1071,6 +1069,25 @@
                         <div class="stat-item">
                             <div class="stat-number" id="statHabits">0</div>
                             <div class="stat-label">Привычек отслеживается</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ios-card">
+                    <div class="ios-card-header">
+                        <h2>Внешний вид</h2>
+                    </div>
+                    <div class="ios-list">
+                        <div class="ios-list-item theme-toggle-item" id="themeToggleItem">
+                            <div class="list-item-icon" id="themeIconProfile">🌙</div>
+                            <div class="list-item-content">
+                                <div class="list-item-text">Тема оформления</div>
+                                <div class="list-item-subtitle" id="themeSubtitle">Светлая</div>
+                            </div>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="themeToggleSwitch" class="toggle-input">
+                                <label for="themeToggleSwitch" class="toggle-label"></label>
+                            </div>
                         </div>
                     </div>
                 </div>

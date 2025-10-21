@@ -155,17 +155,27 @@ function switchTab(tabName) {
     // Hide/show status bar and tabs for voice tab
     const statusBar = document.querySelector('.status-bar');
     const container = document.querySelector('.container');
-    const tabs = document.querySelector('.ios-tabs');
 
-    if (tabName === 'voice') {
-        statusBar.style.opacity = '0';
-        statusBar.style.pointerEvents = 'none';
-        container.style.paddingTop = '0';
-        // Tabs will auto-hide via CSS :has selector
-    } else {
-        statusBar.style.opacity = '1';
-        statusBar.style.pointerEvents = 'auto';
-        container.style.paddingTop = 'calc(44px + var(--safe-area-top) + 60px)';
+    if (statusBar && container) {
+        if (tabName === 'voice') {
+            statusBar.style.opacity = '0';
+            statusBar.style.pointerEvents = 'none';
+            container.style.paddingTop = '0';
+            // Tabs will auto-hide via CSS :has selector
+        } else {
+            statusBar.style.opacity = '1';
+            statusBar.style.pointerEvents = 'auto';
+            container.style.paddingTop = 'calc(44px + var(--safe-area-top) + 60px)';
+        }
+    }
+
+    // Initialize theme toggle when switching to profile tab
+    if (tabName === 'profile' && window.themeManager) {
+        // Wait longer to ensure profile state is shown
+        setTimeout(() => {
+            console.log('🔧 Attempting to initialize theme toggle from switchTab...');
+            window.themeManager.setupToggleButton();
+        }, 200);
     }
 
     // Update analytics when switching to analytics tab

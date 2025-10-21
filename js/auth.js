@@ -210,8 +210,38 @@ class AuthManager {
             }
         }
 
+        // Update footer avatar
+        this.updateFooterAvatar(isGuest);
+
         // Update stats
         this.updateStats();
+
+        // Initialize theme toggle after profile is shown
+        setTimeout(() => {
+            console.log('🔧 Attempting to initialize theme toggle from auth.js...');
+            if (window.themeManager) {
+                window.themeManager.setupToggleButton();
+            }
+        }, 200);
+    }
+
+    updateFooterAvatar(isGuest = false) {
+        const avatarImgSmall = document.getElementById('avatarImgSmall');
+        const avatarPlaceholderSmall = document.querySelector('.avatar-placeholder-small');
+
+        if (isGuest) {
+            if (avatarImgSmall) avatarImgSmall.style.display = 'none';
+            if (avatarPlaceholderSmall) avatarPlaceholderSmall.style.display = 'flex';
+        } else if (this.user && this.user.avatar) {
+            if (avatarImgSmall) {
+                avatarImgSmall.src = this.user.avatar;
+                avatarImgSmall.style.display = 'block';
+            }
+            if (avatarPlaceholderSmall) avatarPlaceholderSmall.style.display = 'none';
+        } else {
+            if (avatarImgSmall) avatarImgSmall.style.display = 'none';
+            if (avatarPlaceholderSmall) avatarPlaceholderSmall.style.display = 'flex';
+        }
     }
 
     updateStats() {
