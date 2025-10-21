@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunify Logo Export</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .instructions {
+            color: white;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .logo-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        canvas {
+            display: block;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #5AA2FF;
+            color: white;
+        }
+
+        button:hover {
+            background: #004AD0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(90, 162, 255, 0.4);
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .size-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            background: #333;
+        }
+
+        .size-btn.active {
+            background: #A0FF00;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>Экспорт логотипа Lunify</h1>
+        <p>Выберите размер и нажмите "Скачать PNG"</p>
+    </div>
+
+    <div class="size-options">
+        <button class="size-btn active" onclick="changeSize(512)">512x512</button>
+        <button class="size-btn" onclick="changeSize(1024)">1024x1024</button>
+        <button class="size-btn" onclick="changeSize(256)">256x256</button>
+        <button class="size-btn" onclick="changeSize(128)">128x128</button>
+        <button class="size-btn" onclick="changeSize(64)">64x64</button>
+    </div>
+
+    <div class="logo-container">
+        <canvas id="logoCanvas" width="512" height="512"></canvas>
+    </div>
+
+    <div class="buttons">
+        <button onclick="downloadLogo()">💾 Скачать PNG</button>
+        <button onclick="downloadWithBackground()">🎨 Скачать с фоном</button>
+    </div>
+
+    <script>
+        let currentSize = 512;
+
+        function drawLogo(withBackground = false) {
+            const canvas = document.getElementById('logoCanvas');
+            const ctx = canvas.getContext('2d');
+            const size = currentSize;
+
+            canvas.width = size;
+            canvas.height = size;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+
+            // Background if needed
+            if (withBackground) {
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#1a1a1a');
+                gradient.addColorStop(1, '#0a0a0a');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, size, size);
+            }
+
+            // Scale factor
+            const scale = size / 200;
+            ctx.scale(scale, scale);
+
+            // Create gradient for moon
+            const moonGradient = ctx.createRadialGradient(30, 30, 0, 100, 100, 160);
+            moonGradient.addColorStop(0, '#5AA2FF');
+            moonGradient.addColorStop(1, '#004AD0');
+
+            // Draw main circle
+            ctx.fillStyle = moonGradient;
+            ctx.beginPath();
+            ctx.arc(100, 100, 90, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Cut out crescent (create mask effect)
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(140, 100, 70, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Reset composite operation
+            ctx.globalCompositeOperation = 'source-over';
+
+            // Draw craters
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+
+            // Crater 1
+            ctx.beginPath();
+            ctx.arc(60, 70, 10, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Crater 2 (largest)
+            ctx.beginPath();
+            ctx.arc(70, 110, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Crater 3 (smallest)
+            ctx.beginPath();
+            ctx.arc(55, 130, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Crater 4
+            ctx.beginPath();
+            ctx.arc(80, 85, 8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function changeSize(size) {
+            currentSize = size;
+
+            // Update active button
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            drawLogo();
+        }
+
+        function downloadLogo() {
+            const canvas = document.getElementById('logoCanvas');
+            const link = document.createElement('a');
+            link.download = `lunify-logo-${currentSize}x${currentSize}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function downloadWithBackground() {
+            drawLogo(true);
+            const canvas = document.getElementById('logoCanvas');
+            const link = document.createElement('a');
+            link.download = `lunify-logo-with-bg-${currentSize}x${currentSize}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            // Redraw without background
+            setTimeout(() => drawLogo(), 100);
+        }
+
+        // Initial draw
+        drawLogo();
+    </script>
+</body>
+</html>

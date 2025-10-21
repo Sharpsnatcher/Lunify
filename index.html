@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Lunify">
+    <title>Lunify - Психологическое благополучие</title>
+    <link rel="stylesheet" href="css/style.css?v=2.0">
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg class="moon-logo-sidebar" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="moonGradientSidebar" cx="30%" cy="30%" r="80%">
+                                <stop offset="0%" stop-color="#5AA2FF"/>
+                                <stop offset="100%" stop-color="#004AD0"/>
+                            </radialGradient>
+                            <mask id="moonMaskSidebar">
+                                <rect width="100%" height="100%" fill="white"/>
+                                <circle cx="140" cy="100" r="70" fill="black"/>
+                            </mask>
+                        </defs>
+                        <circle cx="100" cy="100" r="90" fill="url(#moonGradientSidebar)" mask="url(#moonMaskSidebar)"/>
+                        <circle cx="60" cy="70" r="10" fill="rgba(0,0,0,0.15)"/>
+                        <circle cx="70" cy="110" r="14" fill="rgba(0,0,0,0.15)"/>
+                        <circle cx="55" cy="130" r="6" fill="rgba(0,0,0,0.15)"/>
+                        <circle cx="80" cy="85" r="8" fill="rgba(0,0,0,0.15)"/>
+                    </svg>
+                    <div class="logo-text-wrapper">
+                        <h1 class="sidebar-title">Lunify</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="sidebar-search">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 20 20" fill="none">
+                    <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" class="search-input" placeholder="Поиск">
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <button class="ios-tab active" data-tab="voice">
+                    <span class="tab-icon">🎤</span>
+                    <span class="tab-label">Голосовой анализ</span>
+                </button>
+                <button class="ios-tab" data-tab="mood">
+                    <span class="tab-icon">📔</span>
+                    <span class="tab-label">Дневник настроения</span>
+                </button>
+                <button class="ios-tab" data-tab="breathe">
+                    <span class="tab-icon">🧘</span>
+                    <span class="tab-label">Дыхательные практики</span>
+                </button>
+                <button class="ios-tab" data-tab="habits">
+                    <span class="tab-icon">✓</span>
+                    <span class="tab-label">Привычки</span>
+                </button>
+                <button class="ios-tab" data-tab="analytics">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-label">Аналитика</span>
+                </button>
+                <button class="ios-tab" data-tab="events">
+                    <span class="tab-icon">🎭</span>
+                    <span class="tab-label">Мероприятия</span>
+                </button>
+                <button class="ios-tab" data-tab="music">
+                    <span class="tab-icon">🎵</span>
+                    <span class="tab-label">Музыка по настроению</span>
+                </button>
+                <button class="ios-tab" data-tab="content">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-label">Контент</span>
+                </button>
+                <button class="ios-tab" data-tab="chat">
+                    <span class="tab-icon">💬</span>
+                    <span class="tab-label">Чат поддержки</span>
+                </button>
+                <button class="ios-tab" data-tab="profile">
+                    <span class="tab-icon">👤</span>
+                    <span class="tab-label">Профиль</span>
+                </button>
+            </nav>
+
+            <!-- Theme Toggle -->
+            <div class="sidebar-footer">
+                <button class="theme-toggle-btn" id="themeToggle" title="Переключить тему">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content-area" id="mainContentArea">
+
+        <!-- Voice Tab -->
+        <div id="voice-tab" class="tab-content active">
+            <div class="ios-card">
+                <div class="voice-section">
+                    <button class="voice-button" id="voiceBtn">🎤</button>
+                    <div class="voice-status" id="voiceStatus">Нажмите для записи</div>
+                    <div class="voice-hint">Расскажите, как вы себя чувствуете</div>
+                </div>
+            </div>
+
+            <!-- Results Card -->
+            <div class="ios-card result-card" id="resultsCard">
+                <button class="result-close-btn" id="closeResultsBtn">✕</button>
+                <div class="result-banner" id="resultBanner">
+                    <div class="result-icon" id="resultIcon">😊</div>
+                    <div class="result-title" id="resultTitle">Анализ завершен</div>
+                    <div class="result-subtitle" id="resultSubtitle">Ваше состояние</div>
+                    <div class="ios-badge" id="resultBadge">Приоритет</div>
+                </div>
+                <div class="ios-card-body">
+                    <div id="resultMessage"></div>
+
+                    <div class="ios-list">
+                        <div class="list-item-title">📌 Рекомендации</div>
+                        <div id="actionsList"></div>
+                    </div>
+
+                    <div class="ios-list">
+                        <div class="list-item-title">🧘 Упражнения</div>
+                        <div id="exercisesList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mood Diary Tab -->
+        <div id="mood-tab" class="tab-content">
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Дневник настроения</h2>
+                </div>
+                <div class="ios-card-body">
+                    <div class="mood-selector">
+                        <div class="mood-question">Как вы себя чувствуете сегодня?</div>
+                        <div class="mood-emojis">
+                            <button class="mood-emoji" data-mood="5" data-emoji="😄">😄<span>Отлично</span></button>
+                            <button class="mood-emoji" data-mood="4" data-emoji="🙂">🙂<span>Хорошо</span></button>
+                            <button class="mood-emoji" data-mood="3" data-emoji="😐">😐<span>Нормально</span></button>
+                            <button class="mood-emoji" data-mood="2" data-emoji="😔">😔<span>Грустно</span></button>
+                            <button class="mood-emoji" data-mood="1" data-emoji="😢">😢<span>Плохо</span></button>
+                        </div>
+                    </div>
+
+                    <div class="mood-tags">
+                        <div class="section-title">Что влияет на настроение?</div>
+                        <div class="tags-container">
+                            <button class="tag-btn" data-tag="работа">💼 Работа</button>
+                            <button class="tag-btn" data-tag="отношения">❤️ Отношения</button>
+                            <button class="tag-btn" data-tag="здоровье">🏥 Здоровье</button>
+                            <button class="tag-btn" data-tag="семья">👨‍👩‍👧 Семья</button>
+                            <button class="tag-btn" data-tag="деньги">💰 Финансы</button>
+                            <button class="tag-btn" data-tag="учеба">📚 Учёба</button>
+                            <button class="tag-btn" data-tag="сон">😴 Сон</button>
+                            <button class="tag-btn" data-tag="спорт">🏃 Спорт</button>
+                        </div>
+                    </div>
+
+                    <textarea class="ios-input" id="moodNote" placeholder="Заметки (необязательно)..."></textarea>
+                    <button class="ios-button" id="saveMoodBtn">Сохранить запись</button>
+                </div>
+            </div>
+
+            <!-- Mood History -->
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>История записей</h2>
+                </div>
+                <div id="moodHistoryList"></div>
+            </div>
+        </div>
+
+        <!-- Breathing Exercises Tab -->
+        <div id="breathe-tab" class="tab-content">
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Дыхательные практики</h2>
+                </div>
+                <div class="breathe-container">
+                    <!-- Exercise Selector -->
+                    <div class="exercise-selector">
+                        <button class="exercise-card active" data-exercise="478">
+                            <div class="exercise-icon">😌</div>
+                            <div class="exercise-name">4-7-8</div>
+                            <div class="exercise-desc">Для расслабления</div>
+                        </button>
+                        <button class="exercise-card" data-exercise="box">
+                            <div class="exercise-icon">📦</div>
+                            <div class="exercise-name">Квадрат</div>
+                            <div class="exercise-desc">От стресса</div>
+                        </button>
+                        <button class="exercise-card" data-exercise="calm">
+                            <div class="exercise-icon">🌊</div>
+                            <div class="exercise-name">Спокойствие</div>
+                            <div class="exercise-desc">Медленное дыхание</div>
+                        </button>
+                        <button class="exercise-card" data-exercise="energy">
+                            <div class="exercise-icon">⚡</div>
+                            <div class="exercise-name">Энергия</div>
+                            <div class="exercise-desc">Бодрящее дыхание</div>
+                        </button>
+                        <button class="exercise-card" data-exercise="triangle">
+                            <div class="exercise-icon">🔺</div>
+                            <div class="exercise-name">Треугольник</div>
+                            <div class="exercise-desc">Баланс и гармония</div>
+                        </button>
+                        <button class="exercise-card" data-exercise="deep">
+                            <div class="exercise-icon">🫁</div>
+                            <div class="exercise-name">Глубокое</div>
+                            <div class="exercise-desc">Против тревоги</div>
+                        </button>
+                    </div>
+
+                    <!-- Breathing Animation -->
+                    <div class="breathing-animation">
+                        <div class="breath-circle" id="breathCircle">
+                            <div class="breath-text" id="breathText">Нажмите<br>"Начать"</div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="breathing-controls">
+                        <div class="breath-counter" id="breathCounter">Циклов: 0 / 5</div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="breathing-instructions" id="breathInstructions">
+                        <h3>Техника 4-7-8</h3>
+                        <ul>
+                            <li>Вдох через нос (4 секунды)</li>
+                            <li>Задержка дыхания (7 секунд)</li>
+                            <li>Выдох через рот (8 секунд)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Habits Tracker Tab -->
+        <div id="habits-tab" class="tab-content">
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Трекер привычек</h2>
+                    <button class="add-habit-btn" id="addHabitBtn">+ Добавить</button>
+                </div>
+                <div class="habits-list" id="habitsList">
+                    <!-- Habits will be added here -->
+                </div>
+            </div>
+
+            <!-- Add Habit Modal -->
+            <div class="modal" id="addHabitModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Новая привычка</h3>
+                        <button class="modal-close" id="closeHabitModal">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="ios-input" id="habitNameInput" placeholder="Название привычки">
+                        <div class="habit-icon-selector">
+                            <button class="habit-icon-btn" data-icon="💧">💧</button>
+                            <button class="habit-icon-btn" data-icon="🏃">🏃</button>
+                            <button class="habit-icon-btn" data-icon="📚">📚</button>
+                            <button class="habit-icon-btn" data-icon="🧘">🧘</button>
+                            <button class="habit-icon-btn" data-icon="😴">😴</button>
+                            <button class="habit-icon-btn" data-icon="🥗">🥗</button>
+                            <button class="habit-icon-btn" data-icon="💊">💊</button>
+                            <button class="habit-icon-btn" data-icon="✍️">✍️</button>
+                        </div>
+                        <button class="ios-button" id="saveHabitBtn">Создать привычку</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics-tab" class="tab-content">
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Аналитика настроения</h2>
+                    <div class="period-selector">
+                        <button class="period-btn active" data-period="week">Неделя</button>
+                        <button class="period-btn" data-period="month">Месяц</button>
+                    </div>
+                </div>
+                <div class="ios-card-body">
+                    <canvas id="moodChart"></canvas>
+                </div>
+            </div>
+
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Статистика</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgMood">0</div>
+                        <div class="stat-label">Среднее настроение</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalEntries">0</div>
+                        <div class="stat-label">Записей</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="bestDay">-</div>
+                        <div class="stat-label">Лучший день</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="streak">0</div>
+                        <div class="stat-label">Дней подряд</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Популярные триггеры</h2>
+                </div>
+                <div class="triggers-list" id="triggersList">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div id="events-tab" class="tab-content">
+            <div class="events-page">
+                <h1 class="events-page-title">Психологические мероприятия</h1>
+                <p class="events-page-subtitle">Найдите подходящие события для вашего благополучия в Москве</p>
+
+                <!-- Featured Events -->
+                <section class="events-section">
+                    <h2 class="events-section-title">Рекомендуем</h2>
+                    <div class="events-grid">
+                        <!-- Event Card 1 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">НОЯ</div>
+                                    <div class="date-day">25</div>
+                                </div>
+                                <div class="event-category">Медитация</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Практика осознанности для начинающих</h3>
+                                <p class="event-location">📍 Москва • Центр йоги "Прана"</p>
+                                <p class="event-time">⏰ 19:00 - 21:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 1 500 ₽</span>
+                                    <span class="event-spots">Осталось 5 мест</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 2 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">НОЯ</div>
+                                    <div class="date-day">28</div>
+                                </div>
+                                <div class="event-category">Арт-терапия</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Творческая мастерская: Рисуем эмоции</h3>
+                                <p class="event-location">📍 Москва • Студия "Арт Пространство"</p>
+                                <p class="event-time">⏰ 15:00 - 18:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 2 000 ₽</span>
+                                    <span class="event-spots">Осталось 8 мест</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 3 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">02</div>
+                                </div>
+                                <div class="event-category">Дыхание</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Дыхательные практики от стресса</h3>
+                                <p class="event-location">📍 Москва • Wellness Центр</p>
+                                <p class="event-time">⏰ 10:00 - 12:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 1 800 ₽</span>
+                                    <span class="event-spots">Осталось 12 мест</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 4 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">05</div>
+                                </div>
+                                <div class="event-category">Групповая терапия</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Женский круг поддержки</h3>
+                                <p class="event-location">📍 Москва • Психологический центр "Гармония"</p>
+                                <p class="event-time">⏰ 18:00 - 20:30</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 2 500 ₽</span>
+                                    <span class="event-spots">Осталось 3 места</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 5 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">08</div>
+                                </div>
+                                <div class="event-category">Йога</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Йога для снятия тревожности</h3>
+                                <p class="event-location">📍 Москва • Yoga Space</p>
+                                <p class="event-time">⏰ 20:00 - 21:30</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 1 200 ₽</span>
+                                    <span class="event-spots">Осталось 15 мест</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 6 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">12</div>
+                                </div>
+                                <div class="event-category">Лекция</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Как справляться с выгоранием</h3>
+                                <p class="event-location">📍 Москва • Лекторий "Просвещение"</p>
+                                <p class="event-time">⏰ 19:30 - 21:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">Бесплатно</span>
+                                    <span class="event-spots">Осталось 20 мест</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Events -->
+                <section class="events-section">
+                    <h2 class="events-section-title">Скоро</h2>
+                    <div class="events-grid">
+                        <!-- Event Card 7 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">15</div>
+                                </div>
+                                <div class="event-category">Танцевальная терапия</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Свободный танец: Выражение через движение</h3>
+                                <p class="event-location">📍 Москва • Танцевальная студия "Движение"</p>
+                                <p class="event-time">⏰ 16:00 - 18:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 1 600 ₽</span>
+                                    <span class="event-spots">Осталось 10 мест</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 8 -->
+                        <div class="event-card">
+                            <div class="event-image" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+                                <div class="event-date-badge">
+                                    <div class="date-month">ДЕК</div>
+                                    <div class="date-day">18</div>
+                                </div>
+                                <div class="event-category">Звукотерапия</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Медитация с поющими чашами</h3>
+                                <p class="event-location">📍 Москва • Центр "Звуковая волна"</p>
+                                <p class="event-time">⏰ 20:00 - 22:00</p>
+                                <div class="event-footer">
+                                    <span class="event-price">от 2 200 ₽</span>
+                                    <span class="event-spots">Осталось 6 мест</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Music Tab -->
+        <div id="music-tab" class="tab-content">
+            <div class="music-page">
+                <h1 class="music-page-title">Музыка по настроению</h1>
+                <p class="music-page-subtitle">Подберите музыку под ваше текущее состояние</p>
+
+                <!-- Mood Selection -->
+                <section class="mood-music-section">
+                    <h2 class="music-section-title">Выберите настроение</h2>
+                    <div class="mood-categories">
+                        <!-- Happy Mood -->
+                        <div class="mood-category-card" data-mood="happy">
+                            <div class="mood-category-icon">😊</div>
+                            <h3 class="mood-category-title">Поднять настроение</h3>
+                            <p class="mood-category-desc">Веселые и энергичные треки</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+
+                        <!-- Calm Mood -->
+                        <div class="mood-category-card" data-mood="calm">
+                            <div class="mood-category-icon">😌</div>
+                            <h3 class="mood-category-title">Успокоиться</h3>
+                            <p class="mood-category-desc">Расслабляющая музыка</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+
+                        <!-- Focus Mood -->
+                        <div class="mood-category-card" data-mood="focus">
+                            <div class="mood-category-icon">🎯</div>
+                            <h3 class="mood-category-title">Сосредоточиться</h3>
+                            <p class="mood-category-desc">Музыка для концентрации</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+
+                        <!-- Sleep Mood -->
+                        <div class="mood-category-card" data-mood="sleep">
+                            <div class="mood-category-icon">😴</div>
+                            <h3 class="mood-category-title">Заснуть</h3>
+                            <p class="mood-category-desc">Спокойная музыка для сна</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+
+                        <!-- Energize Mood -->
+                        <div class="mood-category-card" data-mood="energize">
+                            <div class="mood-category-icon">⚡</div>
+                            <h3 class="mood-category-title">Зарядиться энергией</h3>
+                            <p class="mood-category-desc">Бодрящие треки</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+
+                        <!-- Sad Mood -->
+                        <div class="mood-category-card" data-mood="sad">
+                            <div class="mood-category-icon">😢</div>
+                            <h3 class="mood-category-title">Выплеснуть эмоции</h3>
+                            <p class="mood-category-desc">Для грустного настроения</p>
+                            <div class="mood-category-overlay">
+                                <button class="play-mood-btn">▶ Слушать</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Current Playing -->
+                <section class="now-playing-section" id="nowPlayingSection" style="display: none;">
+                    <h2 class="music-section-title">Сейчас играет</h2>
+                    <div class="now-playing-card">
+                        <div class="now-playing-cover" id="nowPlayingCover">
+                            <div class="play-indicator">
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                        <div class="now-playing-info">
+                            <h3 class="now-playing-title" id="nowPlayingTitle">Название трека</h3>
+                            <p class="now-playing-artist" id="nowPlayingArtist">Исполнитель</p>
+                            <div class="now-playing-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-time">
+                                    <span id="currentTime">0:00</span>
+                                    <span id="totalTime">0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="now-playing-controls">
+                            <button class="control-btn" id="prevBtn">⏮</button>
+                            <button class="control-btn play-btn" id="playPauseBtn">▶</button>
+                            <button class="control-btn" id="nextBtn">⏭</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recommended Playlists -->
+                <section class="playlists-section">
+                    <h2 class="music-section-title">Рекомендованные плейлисты</h2>
+                    <div class="playlists-grid" id="playlistsGrid">
+                        <!-- Playlists will be loaded here -->
+                        <div class="playlist-card">
+                            <div class="playlist-cover" style="background: linear-gradient(135deg, #FFD89B 0%, #19547B 100%);">
+                                <div class="playlist-play-btn">▶</div>
+                            </div>
+                            <h4 class="playlist-title">Утренняя мотивация</h4>
+                            <p class="playlist-desc">Начни день с энергии</p>
+                        </div>
+
+                        <div class="playlist-card">
+                            <div class="playlist-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="playlist-play-btn">▶</div>
+                            </div>
+                            <h4 class="playlist-title">Вечерний релакс</h4>
+                            <p class="playlist-desc">Расслабься после дня</p>
+                        </div>
+
+                        <div class="playlist-card">
+                            <div class="playlist-cover" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <div class="playlist-play-btn">▶</div>
+                            </div>
+                            <h4 class="playlist-title">Медитация</h4>
+                            <p class="playlist-desc">Для глубокого покоя</p>
+                        </div>
+
+                        <div class="playlist-card">
+                            <div class="playlist-cover" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <div class="playlist-play-btn">▶</div>
+                            </div>
+                            <h4 class="playlist-title">Фокус</h4>
+                            <p class="playlist-desc">Музыка для работы</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Yandex Music Connection -->
+                <section class="spotify-connect-section">
+                    <div class="spotify-connect-card">
+                        <div class="spotify-icon">🎧</div>
+                        <h3>Подключите Яндекс.Музыку</h3>
+                        <p>Для полного доступа к музыкальным функциям подключите ваш Яндекс.Музыка аккаунт</p>
+                        <button class="spotify-connect-btn yandex-music-btn" id="spotifyConnectBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 17.458a.498.498 0 01-.707 0l-4.293-4.293a.5.5 0 010-.707l4.293-4.293a.5.5 0 01.707.707L13.707 12l4.187 4.187a.498.498 0 010 .707z"/>
+                            </svg>
+                            Подключить Яндекс.Музыку
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Content Tab -->
+        <div id="content-tab" class="tab-content">
+            <div class="content-page">
+                <h1 class="content-page-title">Библиотека контента</h1>
+                <p class="content-page-subtitle">Подкасты, истории и медитации для вашего благополучия</p>
+
+                <!-- Podcasts Section -->
+                <section class="content-section">
+                    <div class="section-header-with-filter">
+                        <h2 class="content-section-title">🎙️ Подкасты о ментальном здоровье</h2>
+                        <div class="content-filters">
+                            <button class="filter-btn active" data-filter="all">Все</button>
+                            <button class="filter-btn" data-filter="psychology">Психология</button>
+                            <button class="filter-btn" data-filter="anxiety">Тревожность</button>
+                            <button class="filter-btn" data-filter="sleep">Сон</button>
+                        </div>
+                    </div>
+
+                    <div class="podcasts-grid">
+                        <!-- Podcast 1 -->
+                        <div class="podcast-card" data-category="psychology">
+                            <div class="podcast-cover">
+                                <div class="podcast-play-icon">🎙️</div>
+                                <div class="podcast-duration">45 мин</div>
+                            </div>
+                            <div class="podcast-info">
+                                <span class="podcast-category">Психология</span>
+                                <h3 class="podcast-title">Как справиться с выгоранием</h3>
+                                <p class="podcast-author">Д-р Анна Петрова</p>
+                                <p class="podcast-description">Эксперт рассказывает о признаках выгорания и методах восстановления</p>
+                                <div class="podcast-stats">
+                                    <span>👁️ 12.5k</span>
+                                    <span>⭐ 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Podcast 2 -->
+                        <div class="podcast-card" data-category="anxiety">
+                            <div class="podcast-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="podcast-play-icon">🎙️</div>
+                                <div class="podcast-duration">32 мин</div>
+                            </div>
+                            <div class="podcast-info">
+                                <span class="podcast-category">Тревожность</span>
+                                <h3 class="podcast-title">Управление тревогой в повседневной жизни</h3>
+                                <p class="podcast-author">Мария Соколова</p>
+                                <p class="podcast-description">Практические техники для снижения уровня тревоги</p>
+                                <div class="podcast-stats">
+                                    <span>👁️ 8.2k</span>
+                                    <span>⭐ 4.9</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Podcast 3 -->
+                        <div class="podcast-card" data-category="sleep">
+                            <div class="podcast-cover" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <div class="podcast-play-icon">🎙️</div>
+                                <div class="podcast-duration">28 мин</div>
+                            </div>
+                            <div class="podcast-info">
+                                <span class="podcast-category">Сон</span>
+                                <h3 class="podcast-title">Секреты здорового сна</h3>
+                                <p class="podcast-author">Д-р Иван Смирнов</p>
+                                <p class="podcast-description">Как наладить режим сна и улучшить его качество</p>
+                                <div class="podcast-stats">
+                                    <span>👁️ 15.1k</span>
+                                    <span>⭐ 4.7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Podcast 4 -->
+                        <div class="podcast-card" data-category="psychology">
+                            <div class="podcast-cover" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <div class="podcast-play-icon">🎙️</div>
+                                <div class="podcast-duration">38 мин</div>
+                            </div>
+                            <div class="podcast-info">
+                                <span class="podcast-category">Психология</span>
+                                <h3 class="podcast-title">Эмоциональный интеллект</h3>
+                                <p class="podcast-author">Елена Волкова</p>
+                                <p class="podcast-description">Развитие навыков управления эмоциями</p>
+                                <div class="podcast-stats">
+                                    <span>👁️ 9.8k</span>
+                                    <span>⭐ 4.6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recovery Stories Section -->
+                <section class="content-section">
+                    <h2 class="content-section-title">❤️ Истории выздоровления</h2>
+                    <p class="section-subtitle">Вдохновляющие истории людей, которые справились с трудностями</p>
+
+                    <div class="stories-grid">
+                        <!-- Story 1 -->
+                        <div class="story-card">
+                            <div class="story-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <div class="story-quote">"</div>
+                            </div>
+                            <div class="story-content">
+                                <h3 class="story-title">Победа над депрессией</h3>
+                                <p class="story-author">Алексей, 32 года</p>
+                                <p class="story-excerpt">После двух лет борьбы с депрессией я нашел свой путь к выздоровлению. Терапия, поддержка близких и работа над собой помогли мне вернуться к жизни...</p>
+                                <button class="read-more-btn">Читать далее →</button>
+                                <div class="story-meta">
+                                    <span>⏱️ 7 мин чтения</span>
+                                    <span>💬 24 комментария</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Story 2 -->
+                        <div class="story-card">
+                            <div class="story-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <div class="story-quote">"</div>
+                            </div>
+                            <div class="story-content">
+                                <h3 class="story-title">Как я справилась с паническими атаками</h3>
+                                <p class="story-author">Мария, 28 лет</p>
+                                <p class="story-excerpt">Панические атаки контролировали мою жизнь. Но с помощью когнитивно-поведенческой терапии я научилась их контролировать...</p>
+                                <button class="read-more-btn">Читать далее →</button>
+                                <div class="story-meta">
+                                    <span>⏱️ 5 мин чтения</span>
+                                    <span>💬 18 комментариев</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Story 3 -->
+                        <div class="story-card">
+                            <div class="story-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <div class="story-quote">"</div>
+                            </div>
+                            <div class="story-content">
+                                <h3 class="story-title">Путь к принятию себя</h3>
+                                <p class="story-author">Дмитрий, 35 лет</p>
+                                <p class="story-excerpt">Долгие годы я не мог принять себя таким, какой я есть. История о том, как я научился любить себя и обрел внутренний покой...</p>
+                                <button class="read-more-btn">Читать далее →</button>
+                                <div class="story-meta">
+                                    <span>⏱️ 6 мин чтения</span>
+                                    <span>💬 31 комментарий</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Guided Meditations Section -->
+                <section class="content-section">
+                    <h2 class="content-section-title">🧘 Гайдовые медитации</h2>
+                    <p class="section-subtitle">Медитации с голосовым сопровождением для разных целей</p>
+
+                    <div class="meditations-grid">
+                        <!-- Meditation 1 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="meditation-icon">🌅</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Утренняя медитация</h3>
+                                    <span class="meditation-duration">10 мин</span>
+                                </div>
+                                <p class="meditation-description">Начни день с ясным умом и позитивным настроем</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Энергия</span>
+                                    <span class="tag">Фокус</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meditation 2 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <div class="meditation-icon">🌊</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Снятие стресса</h3>
+                                    <span class="meditation-duration">15 мин</span>
+                                </div>
+                                <p class="meditation-description">Освободись от напряжения и обрети спокойствие</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Релакс</span>
+                                    <span class="tag">Стресс</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meditation 3 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <div class="meditation-icon">❤️</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Любящая доброта</h3>
+                                    <span class="meditation-duration">12 мин</span>
+                                </div>
+                                <p class="meditation-description">Развитие сострадания к себе и другим</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Любовь</span>
+                                    <span class="tag">Принятие</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meditation 4 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <div class="meditation-icon">🌙</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Вечерняя медитация</h3>
+                                    <span class="meditation-duration">20 мин</span>
+                                </div>
+                                <p class="meditation-description">Подготовь тело и разум ко сну</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Сон</span>
+                                    <span class="tag">Покой</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meditation 5 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <div class="meditation-icon">🌸</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Осознанность</h3>
+                                    <span class="meditation-duration">8 мин</span>
+                                </div>
+                                <p class="meditation-description">Практика присутствия здесь и сейчас</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Mindfulness</span>
+                                    <span class="tag">Концентрация</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meditation 6 -->
+                        <div class="meditation-card">
+                            <div class="meditation-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <div class="meditation-icon">🦋</div>
+                            </div>
+                            <div class="meditation-info">
+                                <div class="meditation-header">
+                                    <h3 class="meditation-title">Работа с тревогой</h3>
+                                    <span class="meditation-duration">18 мин</span>
+                                </div>
+                                <p class="meditation-description">Техники успокоения встревоженного ума</p>
+                                <div class="meditation-tags">
+                                    <span class="tag">Тревога</span>
+                                    <span class="tag">Спокойствие</span>
+                                </div>
+                                <button class="meditation-play-btn">
+                                    <span class="play-icon">▶</span>
+                                    Начать медитацию
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat-tab" class="tab-content">
+            <div class="ios-card">
+                <div class="chat-container" id="chatMessages">
+                    <div class="chat-message">
+                        <div class="chat-bubble assistant">
+                            Привет! Я здесь, чтобы выслушать и поддержать тебя. Как ты себя чувствуешь?
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 60px;"></div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile-tab" class="tab-content">
+            <!-- Not Logged In State -->
+            <div id="loginState" class="login-state">
+                <div class="ios-card">
+                    <div class="login-header">
+                        <div class="login-logo">
+                            <svg class="moon-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="moonGradientLogin" cx="30%" cy="30%" r="80%">
+                                        <stop offset="0%" stop-color="#5AA2FF"/>
+                                        <stop offset="100%" stop-color="#004AD0"/>
+                                    </radialGradient>
+                                    <mask id="moonMaskLogin">
+                                        <rect width="100%" height="100%" fill="white"/>
+                                        <circle cx="140" cy="100" r="70" fill="black"/>
+                                    </mask>
+                                </defs>
+                                <circle cx="100" cy="100" r="90" fill="url(#moonGradientLogin)" mask="url(#moonMaskLogin)"/>
+                                <circle cx="60" cy="70" r="10" fill="rgba(0,0,0,0.15)"/>
+                                <circle cx="70" cy="110" r="14" fill="rgba(0,0,0,0.15)"/>
+                                <circle cx="55" cy="130" r="6" fill="rgba(0,0,0,0.15)"/>
+                            </svg>
+                        </div>
+                        <h1>Добро пожаловать в Lunify</h1>
+                        <p class="login-subtitle">Войдите, чтобы синхронизировать данные между устройствами</p>
+                    </div>
+                    <div class="ios-card-body">
+                        <button class="google-signin-btn" id="googleSignInBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Войти через Google
+                        </button>
+
+                        <div class="login-divider">
+                            <span>или</span>
+                        </div>
+
+                        <p class="guest-mode-text">Продолжить без входа</p>
+                        <button class="ios-button secondary" id="continueGuestBtn">Гостевой режим</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logged In State -->
+            <div id="profileState" class="profile-state" style="display: none;">
+                <div class="ios-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">
+                            <img src="" alt="Avatar" id="avatarImg" style="display: none;">
+                            <div class="avatar-placeholder">👤</div>
+                        </div>
+                        <h2 id="userName">Имя пользователя</h2>
+                        <p id="userEmail" class="user-email">email@example.com</p>
+                    </div>
+                </div>
+
+                <div class="ios-card">
+                    <div class="ios-card-header">
+                        <h2>Статистика</h2>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="statDays">0</div>
+                            <div class="stat-label">Дней с нами</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statMoods">0</div>
+                            <div class="stat-label">Записей в дневнике</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statHabits">0</div>
+                            <div class="stat-label">Привычек отслеживается</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ios-card">
+                    <div class="ios-card-header">
+                        <h2>Настройки</h2>
+                    </div>
+                    <div class="ios-list">
+                        <div class="ios-list-item" id="syncDataBtn">
+                            <div class="list-item-icon">🔄</div>
+                            <div class="list-item-content">
+                                <div class="list-item-text">Синхронизировать данные</div>
+                            </div>
+                            <div class="list-item-arrow">›</div>
+                        </div>
+                        <div class="ios-list-item" id="exportDataBtn">
+                            <div class="list-item-icon">📥</div>
+                            <div class="list-item-content">
+                                <div class="list-item-text">Экспорт данных</div>
+                            </div>
+                            <div class="list-item-arrow">›</div>
+                        </div>
+                        <div class="ios-list-item" id="privacyBtn">
+                            <div class="list-item-icon">🔒</div>
+                            <div class="list-item-content">
+                                <div class="list-item-text">Конфиденциальность</div>
+                            </div>
+                            <div class="list-item-arrow">›</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ios-card">
+                    <button class="ios-button danger" id="logoutBtn">Выйти из аккаунта</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Card -->
+        <div class="emergency-card" id="emergencyCard" style="display: none;">
+            <div class="emergency-title">⚠️ Срочная помощь</div>
+            <div class="emergency-text">
+                Если вам нужна немедленная помощь, обратитесь к специалистам:
+            </div>
+            <button class="emergency-button" id="hotlineBtn">
+                📞 Телефон доверия
+                <span style="font-size: 15px; opacity: 0.8;">8-800-2000-122</span>
+            </button>
+            <button class="emergency-button" id="emergencyBtn">
+                🚑 Скорая помощь
+                <span style="font-size: 15px; opacity: 0.8;">112</span>
+            </button>
+        </div>
+
+        </div> <!-- End of main-content-area -->
+    </div> <!-- End of container -->
+
+    <!-- Chat Input -->
+    <div class="chat-input-container" id="chatInputContainer" style="display: none;">
+        <textarea 
+            class="chat-input" 
+            id="chatInput" 
+            placeholder="Сообщение..."
+            rows="1"
+        ></textarea>
+        <button class="chat-send-button" id="chatSendBtn">↑</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/voiceAnalysis.js"></script>
+    <script src="js/aiChat.js"></script>
+    <script src="js/moodDiary.js"></script>
+    <script src="js/breathing.js"></script>
+    <script src="js/habits.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/eventsTab.js"></script>
+    <script src="js/musicPlayer.js"></script>
+    <script src="js/contentLibrary.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

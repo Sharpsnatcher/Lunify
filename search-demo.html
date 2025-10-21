@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрация поиска - Lunify</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+
+        .feature-list {
+            margin-bottom: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #f5f5f5;
+            border-radius: 12px;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+        }
+
+        .feature-text {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .search-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .search-button:active {
+            transform: translateY(0);
+        }
+
+        .keyboard-hint {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .keyboard-hint kbd {
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #ddd;
+        }
+
+        .demo-searches {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .demo-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .search-chip {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            margin: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .search-chip:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🔍 Поиск по приложению</h1>
+        <p class="subtitle">Быстрый доступ ко всем функциям Lunify</p>
+
+        <div class="feature-list">
+            <div class="feature-item">
+                <span class="feature-icon">✨</span>
+                <span class="feature-text">Мгновенный поиск по всему контенту</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎯</span>
+                <span class="feature-text">Поиск по разделам, мероприятиям, медитациям</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚡</span>
+                <span class="feature-text">Подсветка совпадений в результатах</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⌨️</span>
+                <span class="feature-text">Горячие клавиши для быстрого доступа</span>
+            </div>
+        </div>
+
+        <button class="search-button" onclick="openSearch()">
+            Открыть поиск
+        </button>
+
+        <div class="keyboard-hint">
+            Или нажмите <kbd>Cmd</kbd> + <kbd>K</kbd> (Mac) / <kbd>Ctrl</kbd> + <kbd>K</kbd> (Windows)
+        </div>
+
+        <div class="demo-searches">
+            <div class="demo-title">Попробуйте поискать:</div>
+            <span class="search-chip" onclick="searchFor('медитация')">медитация</span>
+            <span class="search-chip" onclick="searchFor('дыхание')">дыхание</span>
+            <span class="search-chip" onclick="searchFor('стресс')">стресс</span>
+            <span class="search-chip" onclick="searchFor('сон')">сон</span>
+            <span class="search-chip" onclick="searchFor('музыка')">музыка</span>
+            <span class="search-chip" onclick="searchFor('тревога')">тревога</span>
+            <span class="search-chip" onclick="searchFor('помощь')">помощь</span>
+        </div>
+    </div>
+
+    <script>
+        function openSearch() {
+            // Redirect to main page with search open
+            alert('В реальном приложении откроется модальное окно поиска.\n\nОткройте index.html и нажмите на поле поиска в сайдбаре или используйте Cmd+K / Ctrl+K');
+        }
+
+        function searchFor(query) {
+            alert(`Поиск: "${query}"\n\nВ реальном приложении откроется поиск с результатами для: ${query}`);
+        }
+
+        // Keyboard shortcut demo
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+    </script>
+</body>
+</html>

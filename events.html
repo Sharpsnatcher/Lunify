@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мероприятия - Lunify</title>
+    <link rel="stylesheet" href="css/events.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg class="moon-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="moonGradient" cx="30%" cy="30%" r="80%">
+                            <stop offset="0%" stop-color="#A0FF00"/>
+                            <stop offset="100%" stop-color="#00D084"/>
+                        </radialGradient>
+                        <mask id="moonMask">
+                            <rect width="100%" height="100%" fill="white"/>
+                            <circle cx="140" cy="100" r="70" fill="black"/>
+                        </mask>
+                    </defs>
+                    <circle cx="100" cy="100" r="90" fill="url(#moonGradient)" mask="url(#moonMask)"/>
+                    <circle cx="60" cy="70" r="10" fill="rgba(0,0,0,0.15)"/>
+                    <circle cx="70" cy="110" r="14" fill="rgba(0,0,0,0.15)"/>
+                    <circle cx="55" cy="130" r="6" fill="rgba(0,0,0,0.15)"/>
+                    <circle cx="80" cy="85" r="8" fill="rgba(0,0,0,0.15)"/>
+                </svg>
+                <span class="logo-text">Lunify</span>
+            </div>
+            <p class="logo-subtitle">Самые точные рекомендации</p>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+                <path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input type="text" class="search-input" placeholder="Поиск">
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="#" class="nav-item">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9.55228 21 10 20.5523 10 20V16C10 15.4477 10.4477 15 11 15H13C13.5523 15 14 15.4477 14 16V20C14 20.5523 14.4477 21 15 21M9 21H15" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>Главная</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 21V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V21M19 21H21M19 21H14M5 21H3M5 21H10M10 21V17C10 16.4477 10.4477 16 11 16H13C13.5523 16 14 16.4477 14 17V21M10 21H14M8 7H12M8 11H12" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>Мероприятия</span>
+            </a>
+            <a href="#" class="nav-item">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 6.253V13L16 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>Книги и подкасты</span>
+            </a>
+            <a href="#" class="nav-item">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M4.318 6.318C5.889 4.747 8.041 4 10.5 4C12.959 4 15.111 4.747 16.682 6.318C18.253 7.889 19 10.041 19 12.5C19 14.959 18.253 17.111 16.682 18.682M4.318 6.318C2.747 7.889 2 10.041 2 12.5C2 14.959 2.747 17.111 4.318 18.682M4.318 6.318L9.5 11.5M16.682 18.682C15.111 20.253 12.959 21 10.5 21C8.041 21 5.889 20.253 4.318 18.682M16.682 18.682L11.5 13.5M16.682 18.682L19 21M4.318 18.682L2 21M11.5 13.5L9.5 11.5M11.5 13.5V21M9.5 11.5H2" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>Коллекция</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <h1 class="page-title">Мероприятия</h1>
+
+            <!-- Events Section -->
+            <section class="events-section">
+                <div class="section-header">
+                    <h2 class="section-title">Топ для вас</h2>
+                    <div class="nav-arrows">
+                        <button class="nav-arrow prev">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="nav-arrow next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="events-grid" id="eventsGrid">
+                    <!-- Event Card 1 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);">
+                            <div class="event-date">
+                                <div class="date-month">НОЯ</div>
+                                <div class="date-day">30</div>
+                                <div class="date-dow">ВС</div>
+                            </div>
+                            <div class="placeholder-image">🎭</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Mindfulness Workshop</h3>
+                            <p class="event-location">Москва • Атмосфера • 18+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 1 500 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #4E65FF 0%, #92EFFD 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ДЕК</div>
+                                <div class="date-day">14</div>
+                                <div class="date-dow">ПТ</div>
+                            </div>
+                            <div class="placeholder-image">🧘</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Йога для начинающих</h3>
+                            <p class="event-location">Москва • Yoga Space • 16+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 2 000 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #1A1A1A 0%, #2D4263 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ЯНВ</div>
+                                <div class="date-day">3</div>
+                                <div class="date-dow">СБ</div>
+                            </div>
+                            <div class="placeholder-image">💆</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Арт-терапия</h3>
+                            <p class="event-location">Москва • Creative Studio • 16+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 3 500 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 4 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #A0FF00 0%, #00D084 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ЯНВ</div>
+                                <div class="date-day">15</div>
+                                <div class="date-dow">ВС</div>
+                            </div>
+                            <div class="placeholder-image">🌿</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Медитация в лесу</h3>
+                            <p class="event-location">Москва • Парк • 12+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 1 200 ₽</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- More sections can be added -->
+            <section class="events-section">
+                <div class="section-header">
+                    <h2 class="section-title">Скоро</h2>
+                </div>
+
+                <div class="events-grid">
+                    <!-- Event Card 5 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ФЕВ</div>
+                                <div class="date-day">1</div>
+                                <div class="date-dow">ЧТ</div>
+                            </div>
+                            <div class="placeholder-image">🎨</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Творческий вечер</h3>
+                            <p class="event-location">Москва • Loft Hall • 18+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 2 800 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 6 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ФЕВ</div>
+                                <div class="date-day">14</div>
+                                <div class="date-dow">ВТ</div>
+                            </div>
+                            <div class="placeholder-image">💝</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Практика осознанности</h3>
+                            <p class="event-location">Москва • Zen Center • 16+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 1 800 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 7 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);">
+                            <div class="event-date">
+                                <div class="date-month">ФЕВ</div>
+                                <div class="date-day">20</div>
+                                <div class="date-dow">ПН</div>
+                            </div>
+                            <div class="placeholder-image">🌊</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Дыхательные практики</h3>
+                            <p class="event-location">Москва • Health Space • 18+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 2 200 ₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 8 -->
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);">
+                            <div class="event-date">
+                                <div class="date-month">МАР</div>
+                                <div class="date-day">8</div>
+                                <div class="date-dow">ПТ</div>
+                            </div>
+                            <div class="placeholder-image">🌸</div>
+                        </div>
+                        <div class="event-info">
+                            <h3 class="event-title">Женский круг</h3>
+                            <p class="event-location">Москва • Harmony Studio • 18+</p>
+                            <div class="event-meta">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <span>Кешбэк до 20%</span>
+                            </div>
+                            <div class="event-price">от 3 000 ₽</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/events.js"></script>
+</body>
+</html>
