@@ -461,7 +461,7 @@ body {
     left: 280px;
     right: 0;
     bottom: 0;
-    z-index: 10;
+    z-index: 1000;
     padding-top: var(--safe-area-top);
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -2280,21 +2280,49 @@ canvas {
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .app-sidebar {
-        transform: translateX(-280px);
+        transform: translateX(-280px) !important;
+        z-index: 5000 !important; /* Выше всего остального */
     }
 
     .app-sidebar.active {
-        transform: translateX(0);
+        transform: translateX(0) !important;
     }
 
     .main-content-area {
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 
+    /* Voice tab на всю ширину на мобильных */
+    #voice-tab {
+        left: 0 !important;
+    }
+
+    /* Кнопка всегда видна слева на мобильных */
     .sidebar-toggle-btn {
-        display: flex;
+        display: flex !important;
+        left: 10px !important;
+        top: 20px !important;
+        z-index: 6000 !important; /* Выше sidebar */
+    }
+
+    /* Когда sidebar открыт, кнопка справа от него */
+    .app-sidebar.active ~ * .sidebar-toggle-btn,
+    .app-sidebar.active + .sidebar-toggle-btn {
+        left: 260px !important;
+    }
+
+    /* Overlay для закрытия sidebar при клике вне его */
+    .app-sidebar.active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 280px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
     }
 }
 
@@ -4166,6 +4194,194 @@ canvas {
 
 .theme-toggle-item {
     cursor: pointer;
+}
+
+/* ========================================
+   MOBILE OPTIMIZATION
+   ======================================== */
+
+/* Увеличение размеров кликабельных элементов для мобильных */
+@media (max-width: 768px) {
+    /* Минимальный размер кликабельных элементов 44x44px */
+    .ios-tab,
+    .sidebar-toggle-btn,
+    .profile-footer-btn,
+    button,
+    .ios-list-item {
+        min-height: 44px;
+    }
+
+    /* Увеличение размера шрифтов для лучшей читаемости */
+    body {
+        font-size: 16px;
+    }
+
+    /* Увеличение отступов для удобства касаний */
+    .ios-list-item {
+        padding: 16px;
+    }
+
+    /* Статистика в три колонки на средних экранах для экономии места */
+    .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .stat-item {
+        padding: 12px 8px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+    }
+
+    /* Увеличение размера переключателя темы */
+    .toggle-switch {
+        transform: scale(1.1);
+    }
+
+    /* Больше отступы для кнопок */
+    .google-signin-btn,
+    .demo-login-btn,
+    .guest-mode-btn {
+        padding: 14px 24px;
+        min-height: 48px;
+    }
+
+    /* Карточки на всю ширину */
+    .ios-card {
+        margin: 0;
+    }
+
+    /* Увеличение размера иконок */
+    .list-item-icon {
+        font-size: 24px;
+        min-width: 40px;
+    }
+
+    /* Больше padding для профиля */
+    .profile-state {
+        padding: 16px;
+    }
+
+    /* Аватар немного меньше на мобильных */
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Заголовки чуть меньше */
+    .ios-card-header h2 {
+        font-size: 20px;
+    }
+
+    /* Stat numbers больше для лучшей видимости */
+    .stat-number {
+        font-size: 36px;
+    }
+}
+
+/* Очень маленькие экраны (до 375px) */
+@media (max-width: 375px) {
+    /* Ещё меньше отступы */
+    .profile-state {
+        padding: 12px;
+    }
+
+    .ios-card {
+        padding: 16px;
+    }
+
+    /* Компактные кнопки */
+    .google-signin-btn,
+    .demo-login-btn,
+    .guest-mode-btn {
+        font-size: 14px;
+        padding: 12px 20px;
+    }
+
+    /* Меньше аватар */
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Portrait режим на мобильных - статистика в ряд для экономии места */
+@media (min-width: 480px) and (max-width: 768px) {
+    .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .stat-item {
+        padding: 16px 8px;
+    }
+
+    .stat-number {
+        font-size: 32px;
+    }
+
+    .stat-label {
+        font-size: 12px;
+    }
+}
+
+/* Landscape режим на мобильных */
+@media (max-width: 896px) and (orientation: landscape) {
+    /* Компактный header в landscape */
+    .profile-header {
+        padding: 20px;
+    }
+
+    /* Статистика в ряд */
+    .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-number {
+        font-size: 28px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Для устройств с touch экраном */
+
+    /* Убираем hover эффекты, добавляем active */
+    .ios-list-item:hover {
+        background: transparent;
+    }
+
+    .ios-list-item:active {
+        background: rgba(0, 0, 0, 0.05);
+        transform: scale(0.98);
+    }
+
+    [data-theme="dark"] .ios-list-item:active {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Увеличение области клика для переключателя */
+    .theme-toggle-item {
+        padding: 20px 16px;
+    }
+
+    /* Больше feedback при нажатии на кнопки */
+    button:active,
+    .google-signin-btn:active,
+    .demo-login-btn:active {
+        transform: scale(0.96);
+        transition: transform 0.1s ease;
+    }
 }
 
 [data-theme="dark"] .profile-footer-btn {

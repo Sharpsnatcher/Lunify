@@ -54,43 +54,67 @@ function initSidebarToggle() {
         return;
     }
 
+    // Проверка, мобильное ли устройство
+    const isMobile = () => {
+        const width = window.innerWidth;
+        console.log('Current width:', width, 'isMobile:', width <= 768);
+        return width <= 768;
+    };
+
     // Toggle sidebar on button click
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isCollapsed = sidebar.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed', isCollapsed);
 
-        // Update chat input position
-        const chatInput = document.getElementById('chatInputContainer');
-        if (chatInput) {
-            chatInput.style.left = isCollapsed ? '0' : '280px';
+        const mobile = isMobile();
+        console.log('🔘 Button clicked, isMobile:', mobile, 'width:', window.innerWidth);
+
+        if (mobile) {
+            // На мобильных используем класс 'active'
+            const isActive = sidebar.classList.toggle('active');
+            console.log('📱 Sidebar toggled (mobile):', isActive ? 'active (visible)' : 'hidden');
+            console.log('Classes:', sidebar.className);
+        } else {
+            // На десктопе используем класс 'collapsed'
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed', isCollapsed);
+
+            // Update chat input position
+            const chatInput = document.getElementById('chatInputContainer');
+            if (chatInput) {
+                chatInput.style.left = isCollapsed ? '0' : '280px';
+            }
+
+            // Save state to localStorage
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+
+            console.log('💻 Sidebar toggled (desktop):', isCollapsed ? 'collapsed' : 'expanded');
         }
-
-        // Save state to localStorage
-        localStorage.setItem('sidebarCollapsed', isCollapsed);
-
-        console.log('Sidebar toggled:', isCollapsed ? 'collapsed' : 'expanded');
     });
 
-    // Restore saved state
-    const savedState = localStorage.getItem('sidebarCollapsed');
-    if (savedState === 'true') {
-        sidebar.classList.add('collapsed');
-        toggleBtn.classList.add('collapsed');
+    // Restore saved state (только для десктопа)
+    if (!isMobile()) {
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'true') {
+            sidebar.classList.add('collapsed');
+            toggleBtn.classList.add('collapsed');
 
-        // Also update chat input position
-        const chatInput = document.getElementById('chatInputContainer');
-        if (chatInput) {
-            chatInput.style.left = '0';
+            // Also update chat input position
+            const chatInput = document.getElementById('chatInputContainer');
+            if (chatInput) {
+                chatInput.style.left = '0';
+            }
         }
+    } else {
+        console.log('📱 Mobile mode detected, sidebar starts hidden');
     }
 
     // Close sidebar on mobile when clicking outside
     document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 640) {
+        if (isMobile()) {
             const isClickInside = sidebar.contains(e.target) || toggleBtn.contains(e.target);
             if (!isClickInside && sidebar.classList.contains('active')) {
                 sidebar.classList.remove('active');
+                console.log('Sidebar closed (clicked outside)');
             }
         }
     });
@@ -100,13 +124,16 @@ function initSidebarToggle() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            if (window.innerWidth > 640) {
+            if (!isMobile()) {
                 sidebar.classList.remove('active');
+            } else {
+                sidebar.classList.remove('collapsed');
+                toggleBtn.classList.remove('collapsed');
             }
         }, 250);
     });
 
-    console.log('✅ Sidebar toggle initialized');
+    console.log('✅ Sidebar toggle initialized, current mode:', isMobile() ? 'mobile' : 'desktop');
 }
 
 // OLD: Toggle sidebar (keeping for backward compatibility)
