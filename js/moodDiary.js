@@ -3,7 +3,15 @@ class MoodDiary {
     constructor() {
         this.currentMood = null;
         this.selectedTags = [];
-        this.moodEntries = JSON.parse(localStorage.getItem('mood_entries') || '[]');
+
+        // Безопасная загрузка данных
+        try {
+            this.moodEntries = JSON.parse(localStorage.getItem('mood_entries') || '[]');
+        } catch (error) {
+            console.error('Ошибка загрузки записей настроения:', error);
+            localStorage.removeItem('mood_entries');
+            this.moodEntries = [];
+        }
     }
 
     init() {

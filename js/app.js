@@ -1,7 +1,16 @@
 // Главный файл приложения
 const voiceAnalyzer = new VoiceAnalyzer();
 const aiChat = new AIChat();
-let sessionHistory = JSON.parse(localStorage.getItem('mindcare_history') || '[]');
+
+// Безопасная загрузка истории с обработкой ошибок
+let sessionHistory = [];
+try {
+    sessionHistory = JSON.parse(localStorage.getItem('mindcare_history') || '[]');
+} catch (error) {
+    console.error('Ошибка загрузки истории:', error);
+    localStorage.removeItem('mindcare_history');
+    sessionHistory = [];
+}
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.analyticsManager) window.analyticsManager.init();
     if (window.authManager) window.authManager.init();
     if (window.themeManager) window.themeManager.init();
+
+    // Mark as loaded after animations complete
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 500);
 });
 
 // NEW: Initialize Results Close Button
@@ -178,6 +192,46 @@ function switchTab(tabName) {
 
     const chatInput = document.getElementById('chatInputContainer');
     chatInput.style.display = tabName === 'chat' ? 'flex' : 'none';
+
+    // Прокрутка контента наверх при смене таба
+    console.log('🔄 Switching to tab:', tabName);
+
+    // Небольшая задержка, чтобы дать время для рендера
+    setTimeout(() => {
+        // 1. Прокручиваем window
+        window.scrollTo(0, 0);
+        console.log('📜 Window scrolled');
+
+        // 2. Прокручиваем body
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        console.log('📜 Body scrolled');
+
+        // 3. Прокручиваем main content area
+        const mainContentArea = document.getElementById('mainContentArea');
+        if (mainContentArea) {
+            console.log('📜 Main content area scroll before:', mainContentArea.scrollTop);
+            mainContentArea.scrollTop = 0;
+            console.log('📜 Main content area scrolled');
+        }
+
+        // 4. Прокручиваем активную вкладку
+        const activeTab = document.getElementById(tabName + '-tab');
+        if (activeTab) {
+            console.log('📜 Active tab scroll before:', activeTab.scrollTop);
+            activeTab.scrollTop = 0;
+            console.log('📜 Active tab scrolled');
+        }
+
+        // 5. Ищем любой элемент с overflow
+        const allScrollable = document.querySelectorAll('*');
+        allScrollable.forEach(el => {
+            if (el.scrollTop > 0) {
+                console.log('📜 Found scrolled element:', el.className || el.id, 'scrollTop:', el.scrollTop);
+                el.scrollTop = 0;
+            }
+        });
+    }, 50);
 
     // Hide/show status bar and tabs for voice tab
     const statusBar = document.querySelector('.status-bar');

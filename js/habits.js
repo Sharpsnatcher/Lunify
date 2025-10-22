@@ -1,7 +1,14 @@
 // Трекер привычек
 class HabitsTracker {
     constructor() {
-        this.habits = JSON.parse(localStorage.getItem('habits') || '[]');
+        // Безопасная загрузка данных
+        try {
+            this.habits = JSON.parse(localStorage.getItem('habits') || '[]');
+        } catch (error) {
+            console.error('Ошибка загрузки привычек:', error);
+            localStorage.removeItem('habits');
+            this.habits = [];
+        }
         this.selectedIcon = '💧';
     }
 
