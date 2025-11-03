@@ -45,8 +45,18 @@ function initResultsClose() {
     const resultsCard = document.getElementById('resultsCard');
 
     if (closeBtn && resultsCard) {
-        closeBtn.addEventListener('click', () => {
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Закрытие окна результатов');
+
             resultsCard.classList.remove('show');
+
+            // Явно скрываем через style
+            setTimeout(() => {
+                resultsCard.style.display = 'none';
+            }, 400); // После анимации
+
             // Reset voice button for new recording
             const voiceBtn = document.getElementById('voiceBtn');
             const voiceStatus = document.getElementById('voiceStatus');
@@ -55,6 +65,10 @@ function initResultsClose() {
                 voiceStatus.textContent = 'Нажмите для новой записи';
             }
         });
+
+        console.log('✅ Обработчик кнопки закрытия установлен');
+    } else {
+        console.warn('⚠️ Кнопка закрытия или карточка результатов не найдены');
     }
 }
 
@@ -267,60 +281,300 @@ function switchTab(tabName) {
 
 // Голосовой анализ
 function initVoice() {
+    console.log('🎤 НАЧАЛО initVoice()');
+
     const voiceBtn = document.getElementById('voiceBtn');
     const voiceStatus = document.getElementById('voiceStatus');
-    
+    const voiceHint = document.getElementById('voiceHint');
+    const conversationModeBtn = document.getElementById('conversationModeBtn');
+    const analysisModeBtn = document.getElementById('analysisModeBtn');
+
+    console.log('🎤 Инициализация голосового модуля...');
+    console.log('Элементы найдены:', {
+        voiceBtn: !!voiceBtn,
+        voiceStatus: !!voiceStatus,
+        voiceHint: !!voiceHint,
+        conversationModeBtn: !!conversationModeBtn,
+        analysisModeBtn: !!analysisModeBtn
+    });
+
+    // Если кнопок переключателя нет, продолжаем работать в старом режиме
+    if (!conversationModeBtn || !analysisModeBtn) {
+        console.warn('⚠️ Кнопки переключения режимов не найдены! Работаем в режиме разговора по умолчанию.');
+        // Не выходим из функции, продолжаем инициализацию основной кнопки
+    }
+
+    // Устанавливаем callback для обновления распознанного текста в реальном времени
+    voiceAnalyzer.onTranscriptUpdate = (interimTranscript, finalTranscript) => {
+        if (voiceAnalyzer.isRecording) {
+            const text = finalTranscript || interimTranscript;
+            if (text) {
+                voiceStatus.textContent = `Вы говорите: "${text.substring(0, 50)}${text.length > 50 ? '...' : ''}"`;
+            }
+        }
+    };
+
+    // Callback при ошибке распознавания - показываем предложение текстового ввода
+    voiceAnalyzer.onRecognitionFailed = (errorType) => {
+        console.log('❌ Распознавание не работает, показываем текстовый ввод');
+        const toggleBtn = document.getElementById('toggleInputModeBtn');
+        if (toggleBtn) {
+            toggleBtn.style.display = 'block';
+            toggleBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)';
+            toggleBtn.style.color = 'white';
+            toggleBtn.style.border = 'none';
+            toggleBtn.textContent = '⚠️ Распознавание не работает - переключитесь на текст';
+            toggleBtn.style.animation = 'pulse 2s infinite';
+        }
+    };
+
+    // Переключение режимов - добавляем обработчики только если кнопки существуют
+    if (conversationModeBtn && analysisModeBtn) {
+        console.log('✅ Добавляем обработчики для кнопок режимов');
+
+        conversationModeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Клик: Режим - Разговор с психологом');
+            voiceAnalyzer.setMode('conversation');
+            conversationModeBtn.classList.add('active');
+            analysisModeBtn.classList.remove('active');
+            if (voiceHint) voiceHint.textContent = 'Расскажите о ваших чувствах, я вас слушаю';
+            if (voiceStatus) voiceStatus.textContent = 'Нажмите для начала разговора';
+        });
+
+        analysisModeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Клик: Режим - Анализ голоса');
+            voiceAnalyzer.setMode('analysis');
+            analysisModeBtn.classList.add('active');
+            conversationModeBtn.classList.remove('active');
+            if (voiceHint) voiceHint.textContent = 'Анализ эмоционального состояния по голосу';
+            if (voiceStatus) voiceStatus.textContent = 'Нажмите для записи';
+        });
+
+        console.log('✅ Обработчики кнопок режимов установлены');
+    }
+
     voiceBtn.addEventListener('click', async () => {
         if (!voiceAnalyzer.isRecording) {
             const success = await voiceAnalyzer.startRecording();
             if (!success) return;
-            
+
             voiceBtn.classList.add('recording');
             voiceBtn.textContent = '⏹️';
-            voiceStatus.textContent = 'Идет запись... Говорите свободно';
+
+            if (voiceAnalyzer.getMode() === 'conversation') {
+                voiceStatus.textContent = 'Слушаю вас... Говорите свободно';
+                // Показываем кнопку переключения на текстовый ввод в режиме разговора
+                const toggleBtn = document.getElementById('toggleInputModeBtn');
+                if (toggleBtn) toggleBtn.style.display = 'block';
+            } else {
+                voiceStatus.textContent = 'Идет запись... Говорите свободно';
+            }
             voiceStatus.classList.add('recording');
-            
+
         } else {
             voiceBtn.classList.remove('recording');
             voiceBtn.textContent = '🎤';
-            voiceStatus.textContent = 'Анализирую голос...';
+            voiceStatus.textContent = 'Обрабатываю...';
             voiceStatus.classList.remove('recording');
-            
+
             const audioBlob = await voiceAnalyzer.stopRecording();
             await processVoiceRecording(audioBlob);
         }
     });
+
+    // Переключение между голосовым и текстовым вводом
+    const toggleInputModeBtn = document.getElementById('toggleInputModeBtn');
+    const textInputMode = document.getElementById('textInputMode');
+    const sendTextBtn = document.getElementById('sendTextBtn');
+    const manualTextInput = document.getElementById('manualTextInput');
+
+    if (toggleInputModeBtn && textInputMode) {
+        let isTextMode = false;
+
+        toggleInputModeBtn.addEventListener('click', () => {
+            isTextMode = !isTextMode;
+
+            if (isTextMode) {
+                // Показываем текстовый ввод, скрываем голосовую кнопку
+                textInputMode.style.display = 'block';
+                voiceBtn.style.display = 'none';
+                voiceStatus.style.display = 'none';
+                toggleInputModeBtn.textContent = '🎤 Переключить на голосовой ввод';
+            } else {
+                // Показываем голосовую кнопку, скрываем текстовый ввод
+                textInputMode.style.display = 'none';
+                voiceBtn.style.display = 'flex';
+                voiceStatus.style.display = 'block';
+                toggleInputModeBtn.textContent = '📝 Переключить на текстовый ввод';
+            }
+        });
+    }
+
+    // Обработка отправки текстового сообщения
+    if (sendTextBtn && manualTextInput) {
+        sendTextBtn.addEventListener('click', async () => {
+            const text = manualTextInput.value.trim();
+
+            if (!text) {
+                alert('Пожалуйста, напишите что-нибудь');
+                return;
+            }
+
+            // Отключаем кнопку во время обработки
+            sendTextBtn.disabled = true;
+            sendTextBtn.textContent = 'Отправляю...';
+
+            try {
+                // Показываем введенный текст
+                displayRecognizedText(text);
+
+                // Получаем ответ от AI
+                const result = await aiChat.sendMessage(text);
+
+                // Показываем ответ ИИ
+                displayAIResponse(result.response);
+
+                // Озвучиваем ответ
+                await voiceAnalyzer.speak(result.response);
+
+                // Проверяем кризис
+                if (result.hasCrisis) {
+                    showEmergencyCard();
+                }
+
+                // Очищаем поле ввода
+                manualTextInput.value = '';
+
+            } catch (error) {
+                console.error('Ошибка обработки сообщения:', error);
+                alert('Произошла ошибка. Попробуйте снова.');
+            } finally {
+                sendTextBtn.disabled = false;
+                sendTextBtn.textContent = 'Отправить сообщение';
+            }
+        });
+
+        // Отправка по Enter (Shift+Enter для новой строки)
+        manualTextInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendTextBtn.click();
+            }
+        });
+    }
 }
 
 async function processVoiceRecording(audioBlob) {
     const status = document.getElementById('voiceStatus');
-    
+
     try {
-        status.textContent = 'Извлекаю характеристики голоса...';
-        
-        const features = await voiceAnalyzer.analyzeAudio(audioBlob);
-        
-        status.textContent = 'Определяю эмоциональное состояние...';
-        
-        const emotionalState = voiceAnalyzer.detectEmotionalState(features);
-        
-        if (AI_CONFIG.provider !== 'demo') {
-            status.textContent = 'Получаю комментарий от ИИ...';
-            const aiInsights = await aiChat.getVoiceAnalysisInsight(features, emotionalState);
-            if (aiInsights) {
-                emotionalState.aiInsights = aiInsights;
+        const mode = voiceAnalyzer.getMode();
+
+        // В режиме разговора - работаем с распознанным текстом
+        if (mode === 'conversation') {
+            // НОВОЕ: Используем Groq Whisper API для распознавания
+            status.textContent = 'Распознаю речь через Groq Whisper...';
+
+            let recognizedText = '';
+            try {
+                recognizedText = await voiceAnalyzer.transcribeWithGroq(audioBlob);
+                console.log('✅ Текст распознан через Groq:', recognizedText);
+            } catch (error) {
+                console.error('❌ Ошибка распознавания через Groq:', error);
+                status.textContent = 'Ошибка распознавания речи';
+
+                // Показываем кнопку переключения на текстовый ввод
+                const toggleBtn = document.getElementById('toggleInputModeBtn');
+                if (toggleBtn) {
+                    toggleBtn.style.display = 'block';
+                    toggleBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)';
+                    toggleBtn.style.color = 'white';
+                    toggleBtn.style.border = 'none';
+                    toggleBtn.textContent = '⚠️ Ошибка распознавания - попробуйте текст';
+                    toggleBtn.style.animation = 'pulse 2s infinite';
+                }
+
+                setTimeout(() => {
+                    status.textContent = 'Используйте текстовый ввод';
+                }, 2000);
+                return;
             }
+
+            if (!recognizedText) {
+                status.textContent = 'Не удалось распознать речь';
+
+                // Показываем кнопку переключения на текстовый ввод
+                const toggleBtn = document.getElementById('toggleInputModeBtn');
+                if (toggleBtn) {
+                    toggleBtn.style.display = 'block';
+                    toggleBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)';
+                    toggleBtn.style.color = 'white';
+                    toggleBtn.style.border = 'none';
+                    toggleBtn.textContent = '⚠️ Распознавание не работает - попробуйте текст';
+                    toggleBtn.style.animation = 'pulse 2s infinite';
+                }
+
+                setTimeout(() => {
+                    status.textContent = 'Попробуйте еще раз или используйте текст';
+                }, 2000);
+                return;
+            }
+
+            status.textContent = 'Обрабатываю ваше сообщение...';
+
+            // Показываем распознанный текст пользователю
+            displayRecognizedText(recognizedText);
+
+            // Отправляем в AI чат
+            status.textContent = 'Получаю ответ от психолога...';
+            const result = await aiChat.sendMessage(recognizedText);
+
+            // Показываем ответ ИИ
+            displayAIResponse(result.response);
+
+            // Озвучиваем ответ ИИ
+            status.textContent = 'Озвучиваю ответ...';
+            await voiceAnalyzer.speak(result.response);
+
+            status.textContent = 'Готов к новой записи';
+
+            // Показываем экстренную помощь при кризисе
+            if (result.hasCrisis) {
+                showEmergencyCard();
+            }
+
+        } else {
+            // Режим анализа голоса (старая логика)
+            status.textContent = 'Извлекаю характеристики голоса...';
+
+            const features = await voiceAnalyzer.analyzeAudio(audioBlob);
+
+            status.textContent = 'Определяю эмоциональное состояние...';
+
+            const emotionalState = voiceAnalyzer.detectEmotionalState(features);
+
+            if (AI_CONFIG.provider !== 'demo') {
+                status.textContent = 'Получаю комментарий от ИИ...';
+                const aiInsights = await aiChat.getVoiceAnalysisInsight(features, emotionalState);
+                if (aiInsights) {
+                    emotionalState.aiInsights = aiInsights;
+                }
+            }
+
+            status.textContent = 'Анализ завершен!';
+
+            displayResults(emotionalState);
+            saveToHistory(emotionalState);
+
+            setTimeout(() => {
+                status.textContent = 'Нажмите для новой записи';
+            }, 2000);
         }
-        
-        status.textContent = 'Анализ завершен!';
-        
-        displayResults(emotionalState);
-        saveToHistory(emotionalState);
-        
-        setTimeout(() => {
-            status.textContent = 'Нажмите для новой записи';
-        }, 2000);
-        
+
     } catch (error) {
         console.error('Ошибка анализа:', error);
         status.textContent = 'Ошибка анализа. Попробуйте снова';
@@ -411,6 +665,60 @@ function showTyping() {
 function hideTyping() {
     const typing = document.getElementById('typing');
     if (typing) typing.remove();
+}
+
+// Функции для отображения голосового разговора
+function displayRecognizedText(text) {
+    const resultsCard = document.getElementById('resultsCard');
+    const resultMessage = document.getElementById('resultMessage');
+
+    // Обновляем карточку результатов для отображения распознанного текста
+    document.getElementById('resultIcon').textContent = '🎤';
+    document.getElementById('resultTitle').textContent = 'Вы сказали:';
+    document.getElementById('resultSubtitle').textContent = 'Распознанная речь';
+    document.getElementById('resultBadge').style.display = 'none';
+
+    resultMessage.innerHTML = `<p style="font-style: italic; color: #666;">"${text}"</p>`;
+
+    // Скрываем списки рекомендаций
+    document.getElementById('actionsList').parentElement.style.display = 'none';
+    document.getElementById('exercisesList').parentElement.style.display = 'none';
+
+    // Показываем карточку с анимацией
+    resultsCard.style.display = 'block';
+    setTimeout(() => {
+        resultsCard.classList.add('show');
+    }, 10);
+}
+
+function displayAIResponse(response) {
+    const resultMessage = document.getElementById('resultMessage');
+
+    // Обновляем заголовок
+    document.getElementById('resultIcon').textContent = '🤖';
+    document.getElementById('resultTitle').textContent = 'Ответ психолога:';
+    document.getElementById('resultSubtitle').textContent = 'Lunify';
+
+    // Добавляем ответ ИИ под распознанным текстом
+    const aiResponseDiv = document.createElement('div');
+    aiResponseDiv.style.marginTop = '20px';
+    aiResponseDiv.style.padding = '15px';
+    aiResponseDiv.style.background = '#f0f9ff';
+    aiResponseDiv.style.borderRadius = '12px';
+    aiResponseDiv.style.borderLeft = '4px solid #0ea5e9';
+    aiResponseDiv.innerHTML = `<p style="line-height: 1.6; margin: 0;">${response}</p>`;
+
+    resultMessage.appendChild(aiResponseDiv);
+}
+
+function showEmergencyCard() {
+    const card = document.getElementById('emergencyCard');
+    if (card) {
+        card.style.display = 'block';
+        setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
 }
 
 function showEmergencyInChat() {

@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lunify">
     <title>Lunify - Психологическое благополучие</title>
-    <link rel="stylesheet" href="css/style.css?v=1012">
+    <link rel="stylesheet" href="css/style.css?v=20250111d">
 </head>
 <body>
     <!-- Sidebar Toggle Button -->
@@ -113,10 +113,43 @@
         <!-- Voice Tab -->
         <div id="voice-tab" class="tab-content active">
             <div class="ios-card">
+                <div class="ios-card-header">
+                    <h2>Голосовой анализ</h2>
+                    <div class="voice-mode-selector">
+                        <button class="mode-btn active" data-mode="conversation" id="conversationModeBtn">
+                            💬 Разговор с психологом
+                        </button>
+                        <button class="mode-btn" data-mode="analysis" id="analysisModeBtn">
+                            📊 Анализ голоса
+                        </button>
+                    </div>
+                </div>
                 <div class="voice-section">
                     <button class="voice-button" id="voiceBtn">🎤</button>
                     <div class="voice-status" id="voiceStatus">Нажмите для записи</div>
-                    <div class="voice-hint">Расскажите, как вы себя чувствуете</div>
+                    <div class="voice-hint" id="voiceHint">Расскажите, как вы себя чувствуете</div>
+
+                    <!-- Текстовый режим как запасной вариант -->
+                    <div class="text-input-mode" id="textInputMode" style="display: none; margin-top: 20px;">
+                        <textarea
+                            id="manualTextInput"
+                            placeholder="Напишите, что вас беспокоит..."
+                            style="width: 100%; min-height: 100px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; font-family: -apple-system, sans-serif; resize: vertical;"
+                        ></textarea>
+                        <button
+                            id="sendTextBtn"
+                            style="margin-top: 10px; width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;"
+                        >
+                            Отправить сообщение
+                        </button>
+                    </div>
+
+                    <button
+                        id="toggleInputModeBtn"
+                        style="margin-top: 15px; padding: 10px 20px; background: transparent; border: 2px solid #667eea; color: #667eea; border-radius: 12px; font-size: 14px; cursor: pointer; display: none;"
+                    >
+                        📝 Переключить на текстовый ввод
+                    </button>
                 </div>
             </div>
 
@@ -1160,7 +1193,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/voiceAnalysis.js"></script>
+    <script src="js/voiceAnalysis.js?v=groq2"></script>
     <script src="js/aiChat.js"></script>
     <script src="js/moodDiary.js"></script>
     <script src="js/breathing.js"></script>
@@ -1172,6 +1205,6 @@
     <script src="js/search.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/theme.js"></script>
-    <script src="js/app.js?v=1234"></script>
+    <script src="js/app.js?v=groq1"></script>
 </body>
 </html>
